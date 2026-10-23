@@ -1,0 +1,196 @@
+---
+title: "CHAPTER FOUR: RESULTS"
+subtitle: "Assessment of Knowledge and Socio-Cultural Factors Affecting Modern Contraceptive Use among Women of Reproductive Age at Mkuranga District, Pwani Region"
+format:
+  docx:
+    reference-doc: reference.docx
+    fig-format: png
+    fig-dpi: 300
+    toc: false
+    number-sections: false
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+# PRESENTATION LAYER ONLY. No recoding, model selection or statistical decision
+# is made in this file; every value is read from the verified RDS checkpoints.
+source(here::here("Scripts", "00_setup_config.R"), encoding = "UTF-8")
+source(here::here("Scripts", "helpers_report.R"), encoding = "UTF-8")
+
+ds <- load_rds(RDS$descr)           # results_04_descriptive
+bv <- load_rds(RDS$bivar)           # results_05_bivariate
+mp <- load_rds(RDS$mp_all)          # results_06c_modified_poisson_cPR_aPR
+tb <- load_rds(RDS$tbl_obj)         # results_07_table_objects
+fd <- load_rds(RDS$fig_data)        # results_07_figure_data
+
+HOLD <- isTRUE(tb$knowledge_hold)
+N    <- ds$N
+pv   <- ds$prevalence
+cn   <- fd$flow$counts
+dg   <- mp$diagnostics
+cb   <- mp$combined
+bt   <- bv$table
+
+# ---- small text helpers (formatting only) ------------------------------------------------
+catn  <- function(var, level) {
+  r <- ds$categorical[ds$categorical$var == var & ds$categorical$level == level, ]
+  sprintf("n = %d, %.1f%%", r$n, r$pct)
+}
+top_level <- function(var) {
+  b <- ds$categorical[ds$categorical$var == var, ]; b[which.max(b$n), ]
+}
+pstr <- function(p) ifelse(p < 0.001, "P < 0.001", paste0("P = ", fmt_p(p)))
+ci_txt <- function(lo, hi) paste0(fmt_num(lo, 2), EN, fmt_num(hi, 2))
+pr_sentence <- function(r, type = c("aPR", "cPR")) {
+  type <- match.arg(type)
+  est <- if (type == "aPR") r$apr else r$cpr
+  lo  <- if (type == "aPR") r$apr_lo else r$cpr_lo
+  hi  <- if (type == "aPR") r$apr_hi else r$cpr_hi
+  p   <- if (type == "aPR") r$apr_p else r$cpr_p
+  ref <- gsub(">=", "\u2265", PREDICTORS$ref_label[PREDICTORS$var_id == r$var_id])
+  lvl <- gsub(">=", "\u2265", r$level)
+  sprintf("%s: %s versus %s (%s = %s, 95%% CI %s, %s)", tolower(r$label), lvl, ref, type,
+          fmt_num(est, 2), ci_txt(lo, hi), pstr(p))
+}
+sig_list <- function(panel, type) {
+  pc <- if (type == "aPR") "apr_p" else "cpr_p"
+  r <- cb[cb$panel == panel & !cb$is_ref & !(cb$var_id == "V004" & cb$level == "No religion / Other") &
+          !is.na(cb[[pc]]) & cb[[pc]] < ALPHA, ]
+  if (nrow(r) == 0) return("no predictor reached statistical significance at the 5% level")
+  paste(vapply(seq_len(nrow(r)), function(i) pr_sentence(r[i, ], type), character(1)), collapse = "; ")
+}
+comma_and <- function(x) {
+  if (length(x) <= 1) return(paste(x, collapse = ""))
+  if (length(x) == 2) return(paste(x, collapse = " and "))
+  paste0(paste(x[-length(x)], collapse = ", "), " and ", x[length(x)])
+}
+dir_word <- function(pr) ifelse(pr > 1, "higher", "lower")
+
+cap <- list(
+  t41 = "Table 4.1. Sociodemographic and other characteristics of study participants",
+  t42 = "Table 4.2. Distribution and prevalence of current modern contraceptive use",
+  t43 = "Table 4.3. Knowledge of modern contraceptive methods, advantages and side effects",
+  t44 = "Table 4.4. Bivariate associations between selected factors and current modern contraceptive use",
+  t45 = "Table 4.5. Crude and adjusted prevalence ratios for factors associated with current modern contraceptive use")
+```
+
+## 4.1 Introduction
+
+This chapter presents the findings of the study on knowledge and socio-cultural factors affecting modern contraceptive use among women of reproductive age (15–49 years) in Mkuranga District, Pwani Region. The results are organised according to the specific objectives of the study. Participant flow and the analytical sample are described first (Section 4.2), followed by the sociodemographic and other characteristics of the participants (Section 4.3). The prevalence of current modern contraceptive use is then presented (Section 4.4), followed by women's knowledge of modern contraceptive methods, their advantages and side effects (Section 4.5). Bivariate associations between selected factors and current modern contraceptive use are presented in Section 4.6, and modified Poisson regression estimating crude and adjusted prevalence ratios is presented in Section 4.7. The chapter closes with a summary of the principal findings by objective (Section 4.8).
+
+Categorical variables are summarised using frequencies and percentages calculated on the valid denominator of each variable. Continuous variables are summarised using the mean and standard deviation or the median and interquartile range, according to their distribution. Inferential results are reported with effect estimates, 95% confidence intervals and P-values. All analyses were conducted in R using the reproducible script-to-checkpoint pipeline of the project.
+
+## 4.2 Participant Flow and Analytical Sample
+
+Figure 4.1 shows the flow of records through the study. The KoboToolbox export contained `r cn$imported` questionnaire records. Exact duplicate submissions (identical in every questionnaire field) accounted for `r cn$duplicates_removed` records; these were removed, leaving `r cn$eligible` records. All of these satisfied the age eligibility criterion (15–49 years), so no record was excluded on eligibility grounds. Four records shared an identification number with a different respondent (IDs 106, 170, 229 and 424); these were verified as different women, re-labelled and retained. The final analytical sample therefore comprised `r cn$final` women, which is `r fmt_pct(100 * cn$final / cn$planned_sample)` of the planned sample of `r cn$planned_sample`. Of these, `r cn$panelB` were currently married or cohabiting and form the population for the partner-related analyses (Panel B). The study did not record the number of women approached or the number who declined, so a response rate could not be calculated.
+
+```{r f41}
+#| fig-cap: "Figure 4.1. Participant flow through the study, from imported records to the final analytical sample"
+#| fig-width: 6.5
+#| fig-height: 5.2
+plot_flow(fd)
+```
+
+## 4.3 Sociodemographic and Other Characteristics of Participants
+
+Table 4.1 describes the `r N` women in the analytical sample. Their mean age was `r fmt_num(ds$continuous$mean[1], 1)` years (SD `r fmt_num(ds$continuous$sd[1], 1)`) and the largest age group was `r top_level("age_group")$level` (`r sprintf("%d, %.1f%%", top_level("age_group")$n, top_level("age_group")$pct)`). Most women had primary (`r catn("education", "Primary")`) or secondary (`r catn("education", "Secondary")`) education, and Muslims accounted for `r catn("religion", "Muslim")`. Women currently married or cohabiting accounted for `r catn("marital_status", "Currently married / Cohabiting")`, and the most common occupational status was self-employment (`r catn("occupation_status", "Self-employed")`). The median number of living children was `r fmt_num(ds$continuous$median[2], 0)` (Q1–Q3: `r fmt_num(ds$continuous$q1[2], 0)`–`r fmt_num(ds$continuous$q3[2], 0)`).
+
+```{r t41cap, results='asis'}
+print_caption(cap$t41)
+```
+
+```{r t41}
+make_ft(tb$t41)
+```
+
+```{r t41notes, results='asis'}
+print_notes(tb$t41)
+```
+
+## 4.4 Prevalence of Current Modern Contraceptive Use
+
+Table 4.2 presents the primary outcome. Of the `r pv$n_with_outcome` women with available outcome data, `r pv$n_using` were currently using a modern contraceptive method, giving a prevalence of `r fmt_pct(pv$pct_using)` (95% CI `r fmt_num(pv$ci_lo, 1)`–`r fmt_num(pv$ci_hi, 1)`). Among currently married or cohabiting women the prevalence was `r fmt_pct(pv$in_union$pct)` (95% CI `r fmt_num(pv$in_union$ci[1], 1)`–`r fmt_num(pv$in_union$ci[2], 1)`). Among the `r pv$n_using` users, the most commonly used method was `r tolower(as.character(pv$methods_among_users$current_contraceptive_method[which.max(pv$methods_among_users$n)]))` (`r max(pv$methods_among_users$n)`, `r fmt_pct(100 * max(pv$methods_among_users$n) / pv$n_using)`).
+
+```{r t42cap, results='asis'}
+print_caption(cap$t42)
+```
+
+```{r t42}
+make_ft(tb$t42)
+```
+
+```{r t42notes, results='asis'}
+print_notes(tb$t42)
+```
+
+## 4.5 Knowledge of Modern Contraceptive Methods, Advantages and Side Effects
+
+Table 4.3 presents item-level responses; no item had missing data. Among the six methods, awareness was highest for `r tolower(ds$knowledge_items$item[which.max(ds$knowledge_items$pct_yes[1:6])])` (`r fmt_pct(max(ds$knowledge_items$pct_yes[1:6]))`) and lowest for `r tolower(ds$knowledge_items$item[which.min(ds$knowledge_items$pct_yes[1:6])])` (`r fmt_pct(min(ds$knowledge_items$pct_yes[1:6]))`). The most widely known advantage was "`r tolower(ds$knowledge_items$item[6 + which.max(ds$knowledge_items$pct_yes[7:14])])`" (`r fmt_pct(max(ds$knowledge_items$pct_yes[7:14]))`), whereas the least known was "`r tolower(ds$knowledge_items$item[6 + which.min(ds$knowledge_items$pct_yes[7:14])])`" (`r fmt_pct(min(ds$knowledge_items$pct_yes[7:14]))`). Of the four listed side effects, "`r tolower(ds$knowledge_items$item[14 + which.max(ds$knowledge_items$pct_yes[15:18])])`" was the most frequently recognised (`r fmt_pct(max(ds$knowledge_items$pct_yes[15:18]))`).
+`r if (HOLD) "The composite knowledge score and the High/Low knowledge classification are not reported at this stage because the item-level correct-response key and the missing-item rule have not yet been verified; the corresponding rows are marked as on hold." else { sc <- ds$knowledge_composite$score; lv <- ds$knowledge_composite$level; paste0("Across all 18 items, the composite knowledge score (V041; range ", fmt_num(sc$min, 0), "\u2013", fmt_num(sc$max, 0), ") had a mean of ", fmt_num(sc$mean, 2), " (SD ", fmt_num(sc$sd, 2), ") and a median of ", fmt_num(sc$median, 0), " (Q1\u2013Q3: ", fmt_num(sc$q1, 0), "\u2013", fmt_num(sc$q3, 0), "; skewness = ", fmt_num(sc$skewness, 2), "). Using the sample mean (", fmt_num(sc$mean, 2), ") as the cut-off, ", lv$n[2], " women (", fmt_pct(lv$pct[2]), ") had high knowledge (\u2265 mean) and ", lv$n[1], " (", fmt_pct(lv$pct[1]), ") had low knowledge (< mean).") }`
+
+```{r t43cap, results='asis'}
+print_caption(cap$t43)
+```
+
+```{r t43}
+make_ft(tb$t43)
+```
+
+```{r t43notes, results='asis'}
+print_notes(tb$t43)
+```
+
+## 4.6 Bivariate Associations with Current Modern Contraceptive Use
+
+Table 4.4 presents the bivariate associations in three sections: sociodemographic and knowledge factors in the full sample (Section A), partner-related factors among women currently married or cohabiting (Section B), and socio-cultural factors in the full sample (Section C). `r sig_n <- length(unique(bt$var_id[bt$p_value < ALPHA])); if (sig_n == 0) "None of the tested factors was significantly associated with current use at the 5% level." else paste0("Of the ", length(unique(bt$var_id)), " tested factors, ", sig_n, " were significantly associated with current use at the 5% level:")` `r s <- bt %>% filter(p_value < ALPHA) %>% distinct(var_id, .keep_all = TRUE); paste(sprintf("%s (%s, %s = %s, %s)", tolower(s$label), s$statistic, s$effect_name, fmt_num(s$effect_size, 2), pstr(s$p_value)), collapse = "; ")`. `r pn <- bt %>% filter(p_value >= ALPHA) %>% distinct(var_id, label); if (nrow(pn) > 0) paste0("No significant association was observed for ", comma_and(tolower(pn$label)), ".") else ""` In the partner-related section, women who reported that their partner supported contraceptive use had a higher proportion of current use (`r fmt_pct(bt$pct_present[bt$var_id == "V048" & bt$level == "Supportive"])`) than women whose partner did not support or whose partner's view was unknown (`r fmt_pct(bt$pct_present[bt$var_id == "V048" & bt$level == "Not supportive / Don't Know"])`).
+
+```{r t44cap, results='asis'}
+print_caption(cap$t44)
+```
+
+```{r t44}
+make_ft(tb$t44, font_size = 8)
+```
+
+```{r t44notes, results='asis'}
+print_notes(tb$t44)
+```
+
+## 4.7 Factors Associated with Current Modern Contraceptive Use: Modified Poisson Regression
+
+Table 4.5 presents crude prevalence ratios (cPR) from separate univariable modified Poisson models and adjusted prevalence ratios (aPR) from the prespecified multivariable models, using robust (sandwich) standard errors. Panel A uses the full sample (adjusted model n = `r dg$n_model[dg$panel == "A"]`, `r dg$events[dg$panel == "A"]` events) and Panel B is restricted to currently married or cohabiting women (adjusted model n = `r dg$n_model[dg$panel == "B"]`, `r dg$events[dg$panel == "B"]` events). Marital status is therefore not a predictor in Panel B. All models converged.
+
+In the full sample (Panel A), the unadjusted analysis showed that `r sig_list("A", "cPR")`. After adjustment, `r sig_list("A", "aPR")`. Among currently married or cohabiting women (Panel B), the unadjusted analysis showed that `r sig_list("B", "cPR")`. After adjustment, `r sig_list("B", "aPR")`.
+Because the number of events per estimated parameter was limited (Panel A: `r fmt_num(dg$events_per_parameter[dg$panel == "A"], 1)`; Panel B: `r fmt_num(dg$events_per_parameter[dg$panel == "B"], 1)`), and the merged category of no religion or other religion contained very few women, the corresponding estimates have wide confidence intervals and should be interpreted cautiously.
+
+```{r t45cap, results='asis'}
+print_caption(cap$t45)
+```
+
+```{r t45}
+make_ft(tb$t45, font_size = 8)
+```
+
+```{r t45notes, results='asis'}
+print_notes(tb$t45)
+```
+
+Figure 4.2 displays the adjusted prevalence ratios and their 95% confidence intervals from Table 4.5 for each panel, on a logarithmic scale with the reference line at PR = 1. The figure supplements, and does not replace, the numerical results in Table 4.5.
+
+```{r f42}
+#| fig-cap: "Figure 4.2. Adjusted prevalence ratios and 95% confidence intervals for factors associated with current modern contraceptive use (reference categories as in Table 4.5; the merged no religion/other category is not plotted)"
+#| fig-width: 6.5
+#| fig-height: 8
+plot_forest(fd)
+```
+
+## 4.8 Summary of Principal Findings
+
+**Objective 1: To determine the prevalence of modern contraceptive use.** The prevalence of current modern contraceptive use was `r fmt_pct(pv$pct_using)` (95% CI `r fmt_num(pv$ci_lo, 1)`–`r fmt_num(pv$ci_hi, 1)`; n = `r pv$n_using` of `r pv$n_with_outcome`).
+
+**Objective 2: To assess the level of knowledge of modern contraceptive methods.** Awareness of individual methods ranged from `r fmt_pct(min(ds$knowledge_items$pct_yes[1:6]), 0)` to `r fmt_pct(max(ds$knowledge_items$pct_yes[1:6]), 0)`, whereas knowledge of individual advantages and side effects was more variable (`r fmt_pct(min(ds$knowledge_items$pct_yes[7:18]), 0)` to `r fmt_pct(max(ds$knowledge_items$pct_yes[7:18]), 0)`). `r if (HOLD) "The overall knowledge level (High/Low) will be reported once the scoring key is verified." else { sc <- ds$knowledge_composite$score; lv <- ds$knowledge_composite$level; paste0("The mean composite knowledge score across the 18 items was ", fmt_num(sc$mean, 2), " (SD ", fmt_num(sc$sd, 2), "), with ", lv$n[2], " (", fmt_pct(lv$pct[2]), ") classified as having high knowledge (\u2265 mean) and ", lv$n[1], " (", fmt_pct(lv$pct[1]), ") as having low knowledge (< mean).") }`
+
+**Objective 3: To determine the association between socio-cultural factors and modern contraceptive use.** In bivariate analysis, `r comma_and(tolower(unique(s$label)))` `r if (length(unique(s$label)) == 1) "was" else "were"` significantly associated with current use. `r if (!any(bt$section == "C" & bt$p_value < ALPHA)) "None of the socio-cultural belief factors (myths, cultural value of children, religious acceptance) was significantly associated with current use in bivariate analysis. " else ""`In the multivariable models, in the full sample, `r sig_list("A", "aPR")`; among currently married or cohabiting women, `r sig_list("B", "aPR")`.

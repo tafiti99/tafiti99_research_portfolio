@@ -1,0 +1,10 @@
+step,finding,decision,n_affected
+C0,Raw KoboToolbox export imported,Working copy created; raw RDS untouched,421
+C1,"Kobo administrative / note columns (enumerator_id, note_*, _id, _uuid, ...) are not study data",Dropped from the working copy (kept in data_01 raw RDS),15
+C2,Rows identical in every questionnaire column (double submission),Removed; first occurrence kept,2
+C3,"IDs 106, 170, 229 and 424 each shared by two different women (conflicting answers)","NOT deleted; second woman re-labelled 9106, 9170, 9229, 9424 (paper-form verification by team)",4
+C4,Women outside a skip condition holding answers (e.g. not in union with partner answers),Set to NA to respect the questionnaire protocol (R004-R012),12
+C5,Polygamy user-missing code 9 (R001),Converted to NA,0
+C6,Age outside 15-49 / non-integer or negative living children,None found; no records excluded,0
+C7,Validation of cleaned file,Final N = 419,419
+C8,Reconciliation with legacy Group E.R cleaned CSV,IDENTICAL to data/groupE_cleaned.csv from Group E.R,419
