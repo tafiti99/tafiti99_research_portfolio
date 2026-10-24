@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use these empirical studies, biostatistical models, or reproducible research pipelines in your work, please cite it as below."
+authors:
+  - family-names: "Amri"
+    given-names: "Sadick"
+    affiliation: "Muhimbili University of Health and Allied Sciences (MUHAS) / TAFITI99"
+title: "TAFITI99 Research Portfolio: Reproducible Biostatistics and Epidemiological Pipelines in R & Quarto"
+version: 1.0.0
+date-released: 2026-10-24
+url: "https://github.com/tafiti99/tafiti99_research_portfolio"
+repository-code: "https://github.com/tafiti99/tafiti99_research_portfolio"
+keywords:
+  - biostatistics
+  - epidemiology
+  - modified-poisson-regression
+  - reproductive-health
+  - reproducible-research
+  - rstats
+  - quarto
+  - health-data-science
+license: MIT
