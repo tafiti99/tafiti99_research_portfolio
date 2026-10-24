@@ -110,13 +110,9 @@ knowledge_items <- map_dfr(seq_len(nrow(kn_domain)), function(i) {
          pct_yes = 100 * sum(x == yes, na.rm = TRUE) / nv, pct_no = 100 * sum(x == no, na.rm = TRUE) / nv)
 })
 knowledge_composite <- list(
-  hold = !KNOWLEDGE_KEY_VERIFIED,
-  reason = "Correct-response key and missing-item rule not yet verified (Master Metadata critical confirmation 2).",
-  score = NULL, level = NULL)
-if (KNOWLEDGE_KEY_VERIFIED) {
-  knowledge_composite$score <- cont_summary(d$knowledge_score, "Knowledge score (0\u201318)")
-  knowledge_composite$level <- cat_block("knowledge_level", "Knowledge level")
-}
+  score = cont_summary(d$knowledge_score, "Knowledge score (0\u201318)"),
+  level = cat_block("knowledge_level", "Knowledge level")
+)
 print(knowledge_items %>% select(variable_id, item, n_yes, n_valid, n_missing, pct_yes), n = 18)
 
 # --- Save -------------------------------------------------------------------------------

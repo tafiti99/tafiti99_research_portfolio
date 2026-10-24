@@ -73,6 +73,9 @@ print_notes <- function(obj) {
 print_caption <- function(txt) {
   cat('::: {custom-style="Table Caption"}\n', txt, '\n:::\n\n', sep = "")
 }
+print_fig_caption <- function(txt) {
+  cat('::: {custom-style="Image Caption"}\n', txt, '\n:::\n\n', sep = "")
+}
 
 # ---- Figure 4.1 participant flow (ggplot2, observed counts) --------------------------------
 plot_flow <- function(fd) {
@@ -94,19 +97,49 @@ plot_flow <- function(fd) {
 }
 
 # ---- Figure 4.2 forest plot of adjusted PRs (log scale, reference line at 1) ------------------
-plot_forest <- function(fd) {
+plot_forest <- function(fd, panel_filter = NULL) {
   f <- fd$forest %>% filter(plotted)
-  f <- f %>% mutate(key = paste(panel, term, sep = "||"))
+  if (!is.null(panel_filter)) f <- f %>% filter(panel %in% panel_filter)
+  f <- f %>%
+    mutate(
+      key = paste(panel, term, sep = "||"),
+      sig_label = ifelse(sig, "Statistically significant (P < 0.05)", "Not statistically significant (P \u2265 0.05)")
+    )
   f$key <- factor(f$key, levels = rev(unique(f$key)))
-  ggplot(f, aes(x = estimate, y = key)) +
-    geom_vline(xintercept = 1, linetype = "dashed", colour = "grey30") +
-    geom_errorbarh(aes(xmin = conf_low, xmax = conf_high), height = 0.22, linewidth = 0.45) +
-    geom_point(size = 2, shape = 15) +
+  f$panel_label <- factor(f$panel_label, levels = unique(f$panel_label))
+
+  ggplot(f, aes(x = estimate, y = key, colour = sig_label, shape = sig_label)) +
+    geom_vline(xintercept = 1, linetype = "dashed", colour = "grey25", linewidth = 0.5) +
+    geom_errorbar(aes(xmin = conf_low, xmax = conf_high), width = 0.28, linewidth = 0.55, orientation = "y") +
+    geom_point(size = 2.3) +
     facet_wrap(~panel_label, ncol = 1, scales = "free_y") +
-    scale_y_discrete(labels = function(x) stringr::str_wrap(sub("^[AB]\\|\\|", "", x), 48)) +
-    scale_x_log10(breaks = c(0.25, 0.5, 1, 2, 4, 8), labels = c("0.25", "0.5", "1", "2", "4", "8")) +
-    labs(x = "Adjusted prevalence ratio (log scale; reference line at PR = 1)", y = NULL) +
-    theme_minimal(base_size = 9, base_family = "serif") +
-    theme(panel.grid.minor = element_blank(), strip.text = element_text(face = "bold", hjust = 0),
-          axis.text.y = element_text(size = 7.5))
+    scale_colour_manual(values = c(
+      "Statistically significant (P < 0.05)" = "#1B4F72",
+      "Not statistically significant (P \u2265 0.05)" = "#566573"
+    )) +
+    scale_shape_manual(values = c(
+      "Statistically significant (P < 0.05)" = 15,
+      "Not statistically significant (P \u2265 0.05)" = 16
+    )) +
+    scale_y_discrete(labels = function(x) sub("^[AB]\\|\\|", "", x)) +
+    scale_x_log10(
+      breaks = c(0.25, 0.5, 1, 2, 4, 8, 16),
+      labels = c("0.25", "0.5", "1", "2", "4", "8", "16")
+    ) +
+    coord_cartesian(xlim = c(0.22, 16)) +
+    labs(x = "Adjusted prevalence ratio, aPR (log scale; dashed line at PR = 1)", y = NULL, colour = NULL, shape = NULL) +
+    theme_bw(base_size = 9.5, base_family = "serif") +
+    theme(
+      panel.grid.minor = element_blank(),
+      panel.grid.major.y = element_line(colour = "grey92", linewidth = 0.3),
+      strip.background = element_rect(fill = "#E7E6E6", colour = "grey40"),
+      strip.text = element_text(face = "bold", hjust = 0, size = 9.5),
+      axis.text.y = element_text(size = 8.6, colour = "black"),
+      axis.text.x = element_text(size = 8.8, colour = "black"),
+      legend.position = "top",
+      legend.justification = "right",
+      legend.text = element_text(size = 8.5),
+      legend.margin = margin(b = 2),
+      plot.margin = margin(4, 10, 4, 4)
+    )
 }

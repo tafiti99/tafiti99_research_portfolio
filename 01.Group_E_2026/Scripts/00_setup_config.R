@@ -5,9 +5,9 @@
 # Sourced by every pipeline script (01, 04, 05, 06, 07) and by the Quarto layer.
 # It contains NO analysis. It holds:
 #   1. packages and project paths (all relative to the project root via here())
-#   2. analytical switches (knowledge-key HOLD switch, alpha, CI method)
+#   2. analytical constants (alpha, candidate P threshold, skewness rule, CI & SE methods)
 #   3. the dataset-name -> Master Metadata variable_id map
-#   4. the predictor specification (labels, populations, REFERENCE categories)
+#   4. the predictor specification (labels, populations, reference categories)
 #   5. small formatting helpers shared by scripts and by the report
 #
 # Governing documents
@@ -65,18 +65,8 @@ RDS <- list(
 )
 
 # ------------------------------------------------------------------------------
-# 2. ANALYTICAL SWITCHES
+# 2. ANALYTICAL CONSTANTS
 # ------------------------------------------------------------------------------
-# KNOWLEDGE-KEY SWITCH  (Verified against Scripts/Group E.R lines 715-756;
-# Master Metadata derivations V041/V042; Blueprint design decision 7).
-#   TRUE (active): V041 knowledge_score counts "Yes" (code 1 = aware / knows this
-#         advantage / knows this side effect, per Group E.R & Master Metadata) as
-#         1 point across the 18 prespecified items (V010-V023, V025-V028; 0 missing
-#         items in N = 419), and V042 knowledge_level classifies score >= mean(score)
-#         as "High Knowledge (>= mean)" vs "Low Knowledge (< mean)".
-#   FALSE: places V041/V042 rows on hold in Tables 4.3, 4.4 and 4.5.
-KNOWLEDGE_KEY_VERIFIED <- TRUE
-
 ALPHA            <- 0.05   # two-sided significance level
 CANDIDATE_P      <- 0.25   # bivariate P threshold for multivariable candidacy
 SKEW_RULE        <- 0.5    # |skewness| < 0.5 -> mean (SD); otherwise median (Q1-Q3)
@@ -129,14 +119,10 @@ read_metadata <- function(path = P$metadata) {
 
 # ------------------------------------------------------------------------------
 # 5. PREDICTOR SPECIFICATION  (Tables 4.4 and 4.5)
-#    ref_label = REFERENCE category for the modified Poisson models.
-#    Master Metadata does not specify reference categories (Blueprint decision 7),
-#    so they are fixed here, once, by an explicit rule and recorded in the
-#    results RDS / report notes for confirmation:
+#    ref_label = REFERENCE category for the modified Poisson models:
 #       ordinal predictor           -> lowest category
-#       binary exposure             -> the "unexposed / absent" state
+#       binary exposure             -> the unexposed / reference state
 #       multi-category nominal      -> the most prevalent category (stability)
-#    Change a value here and re-run 06 -> 07 -> render to apply it everywhere.
 # ------------------------------------------------------------------------------
 PREDICTORS <- tribble(
   ~var_id, ~var,                      ~label,                          ~ref_label,                                         ~biv_section, ~in_panelA, ~in_panelB, ~a_priori, ~ref_rule,

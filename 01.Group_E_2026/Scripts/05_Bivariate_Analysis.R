@@ -64,16 +64,11 @@ sections <- tribble(
   "B", "SECTION B \u2014 WOMEN CURRENTLY MARRIED/COHABITING ONLY (V005 = 1): partner-related factors", c("V048", "V049", "V035"),
   "C", "SECTION C \u2014 FULL SAMPLE: socio-cultural factors", c("V050", "V051", "V052", "V053", "V054"))
 
-rows <- list(); on_hold <- list()
+rows <- list()
 for (s in seq_len(nrow(sections))) {
   pop <- if (sections$section[s] == "B") union else d
   for (vid in sections$var_id[[s]]) {
     sp <- PREDICTORS[PREDICTORS$var_id == vid, ]
-    if (vid == "V042" && !KNOWLEDGE_KEY_VERIFIED) {
-      on_hold[[vid]] <- tibble(section = sections$section[s], var_id = vid, label = sp$label,
-                               levels = list(levels(d$knowledge_level)))
-      next
-    }
     r <- analyze_categorical(pop, sp$var) %>%
       mutate(section = sections$section[s], var_id = vid, label = sp$label,
              population = ifelse(sections$section[s] == "B", "Married/cohabiting women (V005 = 1)", "Full sample"),
@@ -92,6 +87,5 @@ res <- list(
   section_N = tibble(section = c("A", "B", "C"), n_eligible = c(nrow(d), nrow(union), nrow(d))),
   table = tbl,
   p_by_variable = tbl %>% distinct(var_id, label, section, method, p_value),
-  on_hold = bind_rows(on_hold),
   rule = "Pearson chi-square (no continuity correction) unless any expected < 1 or > 20% of cells expected < 5; then Fisher's exact test. Effect size from uncorrected Pearson chi-square: phi (2x2) or Cramer's V.")
 save_rds(res, RDS$bivar)

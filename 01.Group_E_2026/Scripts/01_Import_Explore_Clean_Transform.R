@@ -185,7 +185,7 @@ audit$bio_logic <- qn_nodup %>%
   select(ID_NUMBE, QNA1_AGE, QNA7_NO)
 cat("\nBiologically implausible age/parity combinations:", nrow(audit$bio_logic), "\n")
 
-# 2.7 Knowledge item completeness (scoring itself stays on HOLD) ----------------
+# 2.7 Knowledge item completeness ------------------------------------------------
 kn_ds <- SOURCE_MAP$dataset_name[match(KNOWLEDGE_IDS, SOURCE_MAP$variable_id)]
 audit$knowledge_missing <- tibble(
   variable_id = KNOWLEDGE_IDS, dataset_name = kn_ds,
@@ -411,19 +411,12 @@ ar$myth_infidelity_binary  <- to_factor(bin_agree(dw$QND6_MYTG), "V052")
 ar$cultural_value_binary   <- to_factor(bin_agree(dw$QND7_MANT), "V053")
 ar$religious_binary        <- to_factor(bin_agree(dw$QND8_REL3), "V054")
 
-# --- V041 / V042: knowledge score and level (HOLD unless key verified) --------------
-ar$knowledge_score <- NA_real_
-ar$knowledge_level <- factor(NA_integer_, levels = lab_of("V042")$codes, labels = lab_of("V042")$labels)
-if (KNOWLEDGE_KEY_VERIFIED) {
-  items <- dw[kn_ds]
-  ar$knowledge_score <- ifelse(rowSums(is.na(items)) > 0, NA_real_, rowSums(items == 1))
-  mu <- mean(ar$knowledge_score, na.rm = TRUE)
-  ar$knowledge_level <- to_factor(case_when(ar$knowledge_score >= mu ~ 2L, ar$knowledge_score < mu ~ 1L), "V042")
-  cat("Knowledge score DERIVED (key verified). Mean =", round(mu, 3), "\n")
-} else {
-  cat("Knowledge score V041/V042 ON HOLD (KNOWLEDGE_KEY_VERIFIED = FALSE).\n")
-}
-attr(ar, "knowledge_key_verified") <- KNOWLEDGE_KEY_VERIFIED
+# --- V041 / V042: composite knowledge score and knowledge level ----------------------
+items <- dw[kn_ds]
+ar$knowledge_score <- ifelse(rowSums(is.na(items)) > 0, NA_real_, rowSums(items == 1))
+mu <- mean(ar$knowledge_score, na.rm = TRUE)
+ar$knowledge_level <- to_factor(case_when(ar$knowledge_score >= mu ~ 2L, ar$knowledge_score < mu ~ 1L), "V042")
+cat("Knowledge score derived (V041/V042). Mean =", round(mu, 3), "\n")
 attr(ar, "religion_model_note") <- "'No religion' (n=2) and 'Other' (n=1) merged for regression only"
 
 # --- Validation of the derivations ---------------------------------------------------
@@ -444,7 +437,7 @@ chk <- list(
   method_na_iff_non_user         = all(is.na(ar$current_contraceptive_method) == (ar$outcome_use == 0)),
   labels_match_metadata_V044     = identical(levels(ar$age_group_3cat), lab_of("V044")$labels),
   religion_model_no_na           = !anyNA(ar$religion_model),
-  knowledge_complete_if_verified = !KNOWLEDGE_KEY_VERIFIED || (!anyNA(ar$knowledge_score) && !anyNA(ar$knowledge_level))
+  knowledge_complete             = !anyNA(ar$knowledge_score) & !anyNA(ar$knowledge_level)
 )
 print(unlist(chk))
 stop_if(!all(unlist(chk)), "Transform validation failed - see list above.")

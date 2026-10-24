@@ -26,7 +26,6 @@ prep_panel <- function(data, ids) {
   sp <- PREDICTORS[match(ids, PREDICTORS$var_id), ]
   for (i in seq_len(nrow(sp))) {
     v <- sp$var[i]
-    if (v == "knowledge_level" && !KNOWLEDGE_KEY_VERIFIED) next
     f <- droplevels(data[[v]])
     stop_if(!sp$ref_label[i] %in% levels(f),
             paste0("Reference '", sp$ref_label[i], "' not a level of ", v))
@@ -34,7 +33,6 @@ prep_panel <- function(data, ids) {
   }
   data
 }
-active_ids <- function(ids) if (KNOWLEDGE_KEY_VERIFIED) ids else setdiff(ids, "V042")
 
 # --- Core fit: modified Poisson with robust variance ---------------------------------------
 fit_mp <- function(data, vars) {
@@ -79,9 +77,9 @@ expand_terms <- function(fit_tab, data, var_id, n_model, model_type, panel) {
 PREDICTORS_LEVELS <- lapply(setNames(PREDICTORS$var, PREDICTORS$var), function(v) d[[v]])
 
 panels <- list(
-  A = list(label = "Panel A \u2014 full sample", data = d, ids = active_ids(PANEL_A_IDS)),
+  A = list(label = "Panel A \u2014 full sample", data = d, ids = PANEL_A_IDS),
   B = list(label = "Panel B \u2014 currently married/cohabiting women (V005 = 1)",
-           data = d %>% filter(in_union == 1), ids = active_ids(PANEL_B_IDS)))
+           data = d %>% filter(in_union == 1), ids = PANEL_B_IDS))
 
 unadj_models <- list(); adj_models <- list()
 est_unadj <- list(); est_adj <- list()
@@ -150,8 +148,6 @@ combined <- unadj %>%
   arrange(panel, var_id) %>% mutate(var_id = as.character(var_id))
 
 # The unadjusted/adjusted display text is built in script 07; keep numeric values here.
-on_hold <- if (KNOWLEDGE_KEY_VERIFIED) character() else "V042"
-
 ref_table <- PREDICTORS %>% filter(var_id %in% TABLE45_ORDER) %>%
   select(var_id, label, ref_label, ref_rule)
 
@@ -167,6 +163,6 @@ save_rds(list(
   generated = format(Sys.time(), "%Y-%m-%d %H:%M:%S"),
   method = "Modified Poisson regression (log link, robust HC0 sandwich SE); PR = exp(beta); Wald 95% CI",
   combined = combined, selection = bind_rows(selection), diagnostics = bind_rows(diagnostics),
-  reference_table = ref_table, on_hold = on_hold,
+  reference_table = ref_table,
   religion_note = "'No religion' (n=2) and 'Other' (n=1) merged for regression only (sparse; 'Other' has zero events)."
 ), RDS$mp_all)
