@@ -1,0 +1,37 @@
+🚀 Excited to share my open-source TAFITI99 Research Portfolio on GitHub!
+
+🔗 Repository Link: https://github.com/tafiti99/tafiti99_research_portfolio
+
+In medical and public health research, data analysis should never be a "black box" or a manual copy-paste exercise. Rigorous epidemiological research demands end-to-end reproducibility, sound biostatistical methodology, and strict data governance.
+
+I built the TAFITI99 Research Portfolio to demonstrate production-grade biomedical data science in action.
+
+🔍 WHAT THE REPOSITORY SHOWCASES:
+
+1️⃣ Advanced Biostatistical Modeling:
+• Modified Poisson Regression (Zou, 2004) with Huber-White robust sandwich variance (sandwich::vcovHC) to directly estimate Crude and Adjusted Prevalence Ratios (cPR / aPR).
+• Why? Because when clinical outcomes exceed 10%, standard logistic regression Odds Ratios drastically inflate risk. Modified Poisson solves this dilemma with guaranteed convergence.
+
+2️⃣ End-to-End Reproducible Research Architecture:
+• Script-to-RDS checkpoint pipelines: Raw data → Cleaning & Deduplication → Exploration → Bivariate Analysis → Multivariable Modeling → Publication Objects.
+• Zero manual hardcoding: Every number, confidence interval, and p-value in manuscripts flows dynamically from verified RDS checkpoints.
+
+3️⃣ Automated Publishing with Quarto & R:
+• Fully reproducible Word (.docx) and PDF generation via Quarto (.qmd).
+• Publication-grade, ICMJE/APA-compliant tables generated programmatically via flextable.
+• Visual forest plots and participant flow diagrams crafted with ggplot2.
+
+4️⃣ Featured Research Project:
+• "Assessment of Knowledge and Socio-Cultural Factors Affecting Modern Contraceptive Use among Women of Reproductive Age in Mkuranga District, Tanzania" (N = 419). Complete pipeline from raw KoboToolbox export to final thesis Chapter 4.
+
+🛠️ TECH STACK & TOOLKIT:
+• Languages: R (v4.3+), SPSS Syntax
+• Core Libraries: tidyverse (dplyr, tidyr, purrr, ggplot2), sandwich, lmtest, flextable, officer, Quarto
+• Practices: Master Metadata codebooks, audit logging, Git version control
+
+Whether you are a public health researcher, clinical investigator, biostatistician, or data science enthusiast, I invite you to explore the repository, review the code, and clone the workflows for your own research projects!
+
+⭐ Star the repo on GitHub: https://github.com/tafiti99/tafiti99_research_portfolio
+💬 Open to research collaborations, biostatistical consulting, and health data analytics roles.
+
+#RStats #DataScience #Biostatistics #PublicHealth #Epidemiology #ReproducibleResearch #Quarto #Tafiti99 #HealthData #OpenSource #ClinicalResearch #MedicalStatistics #GitHub

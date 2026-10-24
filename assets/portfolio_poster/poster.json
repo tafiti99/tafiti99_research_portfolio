@@ -1,0 +1,126 @@
+{
+  "brand": {
+    "name": "TAFITI99",
+    "tagline": "RESEARCH * KNOWLEDGE * IMPACT",
+    "primary": "#002244",
+    "accent": "#008080",
+    "accent_dark": "#006666",
+    "soft": "#F4F7FB",
+    "border": "#D7E0E8",
+    "text": "#233449",
+    "muted": "#5E7085",
+    "purple": "#6B3FA0",
+    "gold": "#C9A227"
+  },
+  "poster": {
+    "series": "TAFITI99 * OPEN-SOURCE RESEARCH PORTFOLIO",
+    "headline": "TAFITI99 RESEARCH PORTFOLIO",
+    "subheadline": "Biostatistics, Epidemiological Pipelines & Reproducible Health Data Science in R & Quarto",
+    "intro": "Welcome to the TAFITI99 Research Portfolio. An open-source showcase of empirical public health research, advanced biostatistical modeling (Modified Poisson, Zou 2004), master metadata governance, and automated Quarto publication reporting.",
+    "author_name": "SADICK AMRI",
+    "author_role": "MD Candidate @ MUHAS | Biostatistical Data Analyst | Founder @ Tafiti99",
+    "author_image": "assets/author.jpg"
+  },
+  "body": [
+    {
+      "type": "feature_columns",
+      "title": "CORE PILLARS OF THE RESEARCH PORTFOLIO",
+      "columns": [
+        {
+          "title": "BIOSTATISTICAL MODELING",
+          "subtitle": "Advanced Inferential Methods",
+          "bullets": [
+            "Modified Poisson regression with sandwich SEs (Zou, 2004)",
+            "Direct Prevalence & Risk Ratios (cPR / aPR)",
+            "Overcomes Odds Ratio inflation on common outcomes (>10%)"
+          ],
+          "footer_note": "Rigorous epidemiological modeling",
+          "footer_tone": "teal"
+        },
+        {
+          "title": "REPRODUCIBLE PIPELINES",
+          "subtitle": "Script-to-RDS Checkpoints",
+          "bullets": [
+            "End-to-end data cleaning, verification & audit logging",
+            "Zero-hardcoding: numbers flow directly into manuscripts",
+            "Automated Quarto publishing to Word (.docx) & PDF"
+          ],
+          "footer_note": "100% reproducible & traceable",
+          "footer_tone": "blue"
+        },
+        {
+          "title": "METADATA GOVERNANCE",
+          "subtitle": "Production-Grade Standards",
+          "bullets": [
+            "Master Research Metadata & blueprint codebooks",
+            "ICMJE & APA compliant tables via flextable",
+            "Publication-ready figures & forest plots (ggplot2)"
+          ],
+          "footer_note": "Enterprise clinical research quality",
+          "footer_tone": "gold"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "FEATURED PROJECT PIPELINE: 01.GROUP_E_2026 (REPRODUCTIVE HEALTH)",
+      "columns": [
+        "PIPELINE STAGE",
+        "ANALYTICAL WORKFLOW",
+        "TOOLS & METHODS",
+        "KEY DELIVERABLE"
+      ],
+      "rows": [
+        [
+          "1. Data Governance",
+          "Survey cleaning, duplicate removal, age checks",
+          "KoboToolbox, R scripts, Metadata codebook",
+          "Analysis-ready dataset (N = 419 women)"
+        ],
+        [
+          "2. Descriptive Profiling",
+          "Sociodemographics & 18-item knowledge scoring",
+          "Tidyverse, Clopper-Pearson / Wilson 95% CIs",
+          "Publication-grade Tables 4.1, 4.2 & 4.3"
+        ],
+        [
+          "3. Bivariate Screening",
+          "Association tests across 3 pre-specified sections",
+          "Chi-Square, Fisher's exact, φ & Cramér's V",
+          "Comprehensive bivariate Table 4.4"
+        ],
+        [
+          "4. Multivariable Modeling",
+          "Crude & Adjusted Prevalence Ratios (cPR / aPR)",
+          "Modified Poisson, sandwich::vcovHC, lmtest",
+          "Table 4.5 & Figure 4.2 Forest Plot"
+        ],
+        [
+          "5. Automated Report",
+          "Complete Chapter 4 dissertation / paper document",
+          "Quarto (.qmd), flextable, officer, reference docx",
+          "Flawless Chapter4_Results.docx"
+        ]
+      ]
+    },
+    {
+      "type": "takeaways",
+      "title": "ANALYTICAL TOOLKIT & SPECIALIZATIONS",
+      "items": [
+        {
+          "title": "R & TIDYVERSE ECOSYSTEM",
+          "text": "Expertise in dplyr, tidyr, purrr, readr, stringr, and ggplot2 for reliable data wrangling, data validation, and publication-ready biomedical graphics."
+        },
+        {
+          "title": "BIOSTATISTICAL INFERENCE",
+          "text": "Modified Poisson regression, robust sandwich error estimation (HC0), multivariable logistic regression, survival analysis, and survey epidemiology."
+        },
+        {
+          "title": "AUTOMATED SCIENTIFIC PUBLISHING",
+          "text": "Dynamic report generation using Quarto, flextable, and officer. Seamless conversion of raw research data into polished, formatted manuscripts."
+        }
+      ]
+    }
+  ],
+  "footer": "GITHUB.COM/TAFITI99/TAFITI99_RESEARCH_PORTFOLIO * R * BIOSTATISTICS * QUARTO * TAFITI99"
+}

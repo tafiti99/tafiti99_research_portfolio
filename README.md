@@ -6,6 +6,10 @@ Welcome to the **TAFITI99 Research Portfolio**, curated by **Sadick Amri**. This
 
 ## 🌟 Portfolio Overview
 
+<p align="center">
+  <img src="./assets/portfolio_poster/poster.png" alt="TAFITI99 Research Portfolio Overview" width="700"/>
+</p>
+
 This repository houses end-to-end research projects covering:
 - **Epidemiological & Public Health Analytics**: Cross-sectional, cohort, and observational study designs.
 - **Advanced Biostatistical Modeling**: Modified Poisson regression with robust (sandwich) standard errors (Zou, 2004), multivariable logistic regression, survival analysis, and survey analytics.
