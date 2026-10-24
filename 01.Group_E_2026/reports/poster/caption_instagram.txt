@@ -1,24 +1,26 @@
-What REALLY determines whether a woman uses modern contraception? 📊💊
+﻿WHAT TRULY DRIVES MODERN CONTRACEPTIVE UPTAKE? 📊💊
 
-We analyzed real data from 419 women of reproductive age in Mkuranga District, Tanzania—and the results challenge how family planning programs are traditionally run!
+Real-world evidence from 419 women of reproductive age in Mkuranga District, Tanzania.
 
-SWIPE TO SEE THE COMPLETE INFOGRAPHIC BREAKDOWN ➡️
+KEY FINDINGS:
+✨ Prevalence: 25.1% overall uptake (28.1% among married/cohabiting women). Injections lead at 45.7%, followed by implants at 27.6%.
 
-Key Findings You Need to Know:
-✨ 25.1% Current Uptake: 1 in 4 women currently uses modern contraception (injections 45.7%, implants 27.6%).
-✨ Knowledge = Power: Women with high contraceptive knowledge were nearly 2x as likely to use modern methods (aPR = 1.89, P < 0.001).
-✨ The Real Game-Changer? PARTNER COMMUNICATION.
-Talking to a partner frequently resulted in 2.7x HIGHER contraceptive use! Even talking once or twice doubled the likelihood of use (aPR = 2.39).
-✨ Partner Support: When men actively support family planning, uptake jumps by +85% (aPR = 1.85).
-✨ The High-Parity Barrier: Women with 3+ children were 32% less likely to use modern contraception, revealing fear of side effects and misconceptions that health workers must address.
+✨ Knowledge Impact: High contraceptive knowledge nearly DOUBLES uptake (aPR = 1.89, P < 0.001).
 
-💡 THE BIG LESSON:
-Family planning cannot remain a "women-only" conversation. When we involve men as supportive partners, contraceptive uptake skyrockets!
+✨ Partner Dynamics (The Decisive Factor):
+• Frequent spousal discussion yields 2.7x HIGHER use (aPR = 2.67, P < 0.001).
+• Even occasional dialogue more than doubles use (aPR = 2.39).
+• Partner support increases prevalence by +85% (aPR = 1.85).
 
-🧬 Analyzed using Modified Poisson Regression in R (Zou 2004) to avoid Odds Ratio distortion on common outcomes.
+✨ The High-Parity Barrier:
+Women with 3+ children had 32% LOWER use (aPR = 0.68), revealing contraceptive fatigue & misconceptions to address.
 
-Drop a ❤️ if you believe male partner involvement is key to reproductive healthcare!
-Save this post for your research & study notes 📌
+🧬 Methodology: Modified Poisson regression (Zou 2004) in R to prevent Odds Ratio inflation on common outcomes.
+
+💡 Lesson: Involving men as supportive partners is the single most effective way to boost family planning uptake!
+
+📌 Save this post for your research notes!
+❤️ Share with a fellow researcher!
 
 ---
-#Tafiti99 #MedicalResearch #PublicHealth #Epidemiology #FamilyPlanning #ReproductiveHealth #WomenHealth #DataAnalysis #RStats #Biostatistics #MedStudent #MUHAS #Tanzania #HealthData #ScienceCommunication
+#Tafiti99 #MedicalResearch #PublicHealth #Epidemiology #FamilyPlanning #ReproductiveHealth #WomenHealth #DataAnalysis #RStats #Biostatistics #MUHAS #Tanzania #HealthData

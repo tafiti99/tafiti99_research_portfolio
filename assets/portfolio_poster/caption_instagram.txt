@@ -1,33 +1,26 @@
-🚀 INTRODUCING THE TAFITI99 RESEARCH PORTFOLIO ON GITHUB! 📊🧬
+﻿🚀 TAFITI99 RESEARCH PORTFOLIO IS LIVE ON GITHUB! 📊🧬
 
-Are you interested in real-world health data science, biostatistics, and reproducible research?
+End-to-end health data science, biostatistics, and reproducible research in R & Quarto.
 
-I just released the official TAFITI99 Research Portfolio on GitHub! 
-🔗 Link in bio / github.com/tafiti99/tafiti99_research_portfolio
+🔗 Link: github.com/tafiti99/tafiti99_research_portfolio (also in bio!)
 
-SWIPE TO SEE WHAT’S INSIDE THE REPOSITORY ➡️
-
-Here is what this open-source portfolio brings to the table:
-
+WHAT’S INSIDE THE REPOSITORY:
 ✨ Advanced Biostatistics in R:
-Moving beyond basic tests to advanced methods like Modified Poisson Regression (Zou 2004) with robust sandwich standard errors to estimate true Relative Risk and Prevalence Ratios.
+Modified Poisson Regression (Zou 2004) with robust sandwich SEs to directly estimate true Prevalence & Risk Ratios without Odds Ratio inflation.
 
 ✨ 100% Reproducible Pipelines:
-No more messy Excel copy-pasting! Every project uses clean R scripts with cached RDS checkpoints, ensuring 100% traceability from raw data to final conclusions.
+Raw survey data ➔ Data Cleaning & Auditing ➔ Bivariate Screening ➔ Multivariable Modeling ➔ Verified RDS Checkpoints.
 
 ✨ Automated Publishing with Quarto:
-Generating publication-ready Word & PDF documents, complete with APA-standard tables (flextable) and custom ggplot2 forest plots.
+Programmatic, publication-ready Word (.docx) & PDF generation with APA/ICMJE tables (flextable) and custom ggplot2 forest plots.
 
 ✨ Featured Real-World Project:
-A complete cross-sectional study of 419 women in Mkuranga District on modern contraceptive use, examining knowledge, partner communication, and socio-cultural drivers.
+"Assessment of Knowledge & Socio-Cultural Factors Affecting Modern Contraceptive Use in Mkuranga District, Tanzania" (N = 419).
 
-🛠️ Built with: R, Tidyverse, Quarto, ggplot2, sandwich, and Git.
+🛠️ Stack: R, Tidyverse, Quarto, sandwich, ggplot2, Git.
 
-💡 If you are a medical student, researcher, or aspiring data analyst looking to level up your analytical skills, check out the code and see how modern health research is built!
-
-⭐ Check out the GitHub repo (link in bio)!
-📌 Save this post for your research journey!
-❤️ Share with a fellow researcher or medical student!
+⭐ Star the repo on GitHub!
+📌 Save this post for your research & data science journey!
 
 ---
-#Tafiti99 #RStats #DataScience #Biostatistics #PublicHealth #Epidemiology #MedicalResearch #MedStudent #MUHAS #HealthData #ReproducibleResearch #Quarto #OpenSource #GitHub #DataAnalytics #WomenHealth
+#Tafiti99 #RStats #DataScience #Biostatistics #PublicHealth #Epidemiology #MedicalResearch #MedStudent #MUHAS #HealthData #ReproducibleResearch #Quarto #OpenSource #GitHub
