@@ -39,6 +39,8 @@ To prevent misinterpretation and effect-size inflation, this study employs **Mod
 ```text
 01.Group_E_2026/
 ├── 01.Group_E_2026.Rproj                  # RStudio Project Root
+├── run_all.R                              # Master replication runner (one-click execution)
+├── session_info.txt                       # R session & exact package version lock
 ├── data/
 │   ├── class_work_2_raw.xlsx              # Raw survey dataset from field collection
 │   ├── class work 2 - SPSS labels.sps     # SPSS variable & value labels syntax
@@ -51,7 +53,12 @@ To prevent misinterpretation and effect-size inflation, this study employs **Mod
 ├── reports/
 │   ├── Chapter4_Results.qmd               # Quarto dynamic results chapter (presentation layer)
 │   ├── Chapter4_Results.docx              # Rendered publication-ready Word chapter
-│   └── reference.docx                     # Typography & style reference template
+│   ├── reference.docx                     # Typography & style reference template
+│   └── poster/                            # Social media & presentation poster assets
+│       ├── poster.png
+│       ├── poster.pdf
+│       ├── caption_linkedin.txt
+│       └── caption_instagram.txt
 ├── resources/
 │   ├── GroupE_Chapter4_Blueprint_v5.xlsx  # Complete analytical blueprint & variable mapping
 │   ├── Research proposal-final 2.docx     # Approved study protocol & proposal
@@ -78,7 +85,6 @@ To prevent misinterpretation and effect-size inflation, this study employs **Mod
     ├── 05_Bivariate_Analysis.R            # Cross-tabulations & association tests (Table 4.4)
     ├── 06_Modified_Poisson_Regression.R   # Modified Poisson modeling (Table 4.5 cPR/aPR)
     ├── 07_Tables_Figures.R                # Flextable objects & ggplot2 forest/flow charts
-    ├── Group E.R                          # Legacy exploratory analysis script
     └── helpers_report.R                   # Quarto rendering helper functions
 ```
 
@@ -128,7 +134,23 @@ install.packages(c(
 ```
 
 ### Running the Complete Pipeline
+
+#### Option A: One-Command Automated Replication (Recommended)
 Open `01.Group_E_2026.Rproj` in RStudio or set working directory to this folder, then run:
+
+```r
+source("run_all.R")
+```
+
+Or execute directly from your terminal / command prompt:
+```bash
+Rscript run_all.R
+```
+
+This single command executes all data cleaning, validation, bivariate testing, Modified Poisson modeling, table/figure formatting, and renders `reports/Chapter4_Results.docx` in ~38 seconds.
+
+#### Option B: Step-by-Step Execution
+If you prefer running individual analytical phases manually:
 
 ```r
 # Execute pipeline scripts sequentially
