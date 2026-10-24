@@ -1,0 +1,139 @@
+{
+  "brand": {
+    "name": "TAFITI99",
+    "tagline": "RESEARCH * KNOWLEDGE * IMPACT",
+    "primary": "#002244",
+    "accent": "#008080",
+    "accent_dark": "#006666",
+    "soft": "#F4F7FB",
+    "border": "#D7E0E8",
+    "text": "#233449",
+    "muted": "#5E7085",
+    "purple": "#6B3FA0",
+    "gold": "#C9A227"
+  },
+  "poster": {
+    "series": "TAFITI99 * RESEARCH CASE STUDY",
+    "headline": "WHAT TRULY DRIVES CONTRACEPTIVE UPTAKE?",
+    "subheadline": "Real-World Evidence from 419 Women of Reproductive Age in Mkuranga District",
+    "intro": "In this cross-sectional study of 419 women, modern contraceptive prevalence was 25.1%. Using Modified Poisson regression (Zou 2004) to avoid Odds Ratio inflation, we evaluated independent knowledge and socio-cultural determinants.",
+    "author_name": "SADICK A. TUNDA",
+    "author_role": "MD Candidate @ MUHAS | Data Analyst | Founder @ Tafiti99",
+    "author_image": "assets/author.jpg"
+  },
+  "body": [
+    {
+      "type": "feature_columns",
+      "title": "KEY EPIDEMIOLOGICAL HIGHLIGHTS",
+      "columns": [
+        {
+          "title": "PREVALENCE: 25.1%",
+          "subtitle": "95% CI: 21.1% – 29.4%",
+          "bullets": [
+            "105 of 419 women currently protected",
+            "28.1% among married / cohabiting women",
+            "Injections top choice (45.7%), Implants 27.6%"
+          ],
+          "footer_note": "1 in 4 women currently using",
+          "footer_tone": "teal"
+        },
+        {
+          "title": "KNOWLEDGE IMPACT",
+          "subtitle": "45.8% High Composite Score",
+          "bullets": [
+            "Injection awareness highest (90.7%)",
+            "Sterilization awareness lowest (24.8%)",
+            "High knowledge nearly doubles use (aPR = 1.89)"
+          ],
+          "footer_note": "Comprehensive awareness matters",
+          "footer_tone": "blue"
+        },
+        {
+          "title": "PARTNER DYNAMICS",
+          "subtitle": "The Decisive Factor",
+          "bullets": [
+            "Frequent discussion yields 2.7x higher use",
+            "Partner support increases use by +85%",
+            "Parity ≥3 children had lower use (aPR = 0.68)"
+          ],
+          "footer_note": "Male involvement is crucial",
+          "footer_tone": "gold"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "MODIFIED POISSON REGRESSION: INDEPENDENT PREDICTORS (aPR)",
+      "columns": [
+        "PREDICTOR VARIABLE",
+        "COMPARISON / CONTRAST",
+        "aPR (95% CI)",
+        "P-VALUE",
+        "EPIDEMIOLOGICAL INTERPRETATION"
+      ],
+      "rows": [
+        [
+          "Contraceptive Knowledge",
+          "High (≥ mean) vs. Low (< mean)",
+          "1.89 (1.35 – 2.65)",
+          "<0.001*",
+          "+89% higher prevalence of current use"
+        ],
+        [
+          "Partner Communication",
+          "Frequent vs. Never",
+          "2.67 (1.57 – 4.52)",
+          "<0.001*",
+          "2.7x higher uptake; strongest single driver"
+        ],
+        [
+          "Partner Communication",
+          "Once or twice vs. Never",
+          "2.39 (1.44 – 3.99)",
+          "<0.001*",
+          "Even occasional dialogue doubles use"
+        ],
+        [
+          "Partner Support",
+          "Supportive vs. Not supportive / DK",
+          "1.85 (1.14 – 3.01)",
+          "0.013*",
+          "Male approval independently boosts use by 85%"
+        ],
+        [
+          "Marital Status",
+          "Married / Cohabiting vs. Not in union",
+          "1.62 (1.02 – 2.59)",
+          "0.043*",
+          "62% higher prevalence among in-union women"
+        ],
+        [
+          "Parity (Living Children)",
+          "≥3 children vs. 0–2 children",
+          "0.68 (0.47 – 0.98)",
+          "0.040*",
+          "32% lower uptake; high-parity barrier"
+        ]
+      ]
+    },
+    {
+      "type": "takeaways",
+      "title": "THREE CRITICAL LESSONS FOR CLINICIANS & RESEARCHERS",
+      "items": [
+        {
+          "title": "1. ENGAGE PARTNERS ACTIVELY",
+          "text": "Partner communication and approval were the single strongest drivers of modern contraceptive uptake (aPR up to 2.67). Interventions must engage couples rather than treating family planning as female-only."
+        },
+        {
+          "title": "2. TARGET HIGH-PARITY BARRIERS",
+          "text": "Women with 3 or more children showed 32% lower use despite having achieved family size goals. Reproductive health services must proactively target misconceptions and fatigue in multiparous women."
+        },
+        {
+          "title": "3. USE MODIFIED POISSON IN R",
+          "text": "Because prevalence was 25.1% (>10%), logistic regression Odds Ratios would severely overestimate true risk. Modified Poisson regression (log-link + sandwich::vcovHC) guarantees valid Prevalence Ratios."
+        }
+      ]
+    }
+  ],
+  "footer": "TAFITI99 * REPRODUCTIVE HEALTH * EPIDEMIOLOGY * R STATS * ZOU (2004) * MKURANGA STUDY"
+}
